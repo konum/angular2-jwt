@@ -40,6 +40,12 @@ export class JwtInterceptor implements HttpInterceptor {
     this.disallowedRoutes = config.disallowedRoutes || [];
     this.throwNoTokenError = config.throwNoTokenError || false;
     this.skipWhenExpired = config.skipWhenExpired;
+    if (config.useRegexpAllowedDomains){
+      this.allowedDomains = config.allowedDomains.map(s=>new RegExp(s));
+    }
+    if (config.useRegexpDisallowedRoutes){
+      this.disallowedRoutes = config.disallowedRoutes.map(s=>new RegExp(s));
+    }
   }
 
   isAllowedDomain(request: HttpRequest<any>): boolean {
